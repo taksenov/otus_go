@@ -1,5 +1,14 @@
+// Otus Homework N1
 package main
 
+import (
+	"fmt"
+
+	"golang.org/x/example/stringutil"
+)
+
 func main() {
-	// Place your code here.
+	hello := stringutil.Reverse("Hello, OTUS!")
+
+	fmt.Println(hello)
 }
