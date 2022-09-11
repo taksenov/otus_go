@@ -8,12 +8,16 @@ import (
 	"unicode/utf8"
 )
 
+const (
+	escapeRune = rune(92)
+)
+
 type runeAdvanced struct {
 	isDigit bool
 	val     rune
 }
 
-type runeDigit struct {
+type cacheRune struct {
 	isSet bool
 	val   rune
 }
@@ -98,26 +102,42 @@ func Unpack(input string) (string, error) {
 
 	stack := createStack()
 
+	tmpEsc := cacheRune{isSet: false, val: rune(0)}
+
 	for _, val := range runes {
 		rA := runeAdvanced{val: val}
 		rA.isDigit = checkIsDigit(rA.val)
+
+		if rA.val == escapeRune {
+			if tmpEsc.isSet {
+				tmpEsc = cacheRune{isSet: false, val: rune(0)}
+			} else {
+				tmpEsc = cacheRune{isSet: true, val: rA.val}
+				continue
+			}
+		}
+
+		if tmpEsc.isSet {
+			tmpEsc = cacheRune{isSet: false, val: rune(0)}
+			rA.isDigit = false
+		}
 
 		stack.push(rA)
 	}
 
 	sLocal := createStack()
-	tmpDigit := runeDigit{isSet: false, val: rune(0)}
+	tmpDigit := cacheRune{isSet: false, val: rune(0)}
 
 	for stack.lenStk() > 0 {
 		rA := stack.pop()
 
-		isDigit := checkIsDigit(rA.val)
+		isDigit := rA.isDigit
 		if isDigit && tmpDigit.isSet {
 			return "", ErrInvalidString
 		}
 
 		if isDigit {
-			tmpDigit = runeDigit{isSet: true, val: rA.val}
+			tmpDigit = cacheRune{isSet: true, val: rA.val}
 			continue
 		}
 
@@ -130,7 +150,7 @@ func Unpack(input string) (string, error) {
 					c--
 				}
 
-				tmpDigit = runeDigit{isSet: false, val: rune(0)}
+				tmpDigit = cacheRune{isSet: false, val: rune(0)}
 			} else {
 				sLocal.push(rA)
 			}
