@@ -1,12 +1,162 @@
+// Package hw02unpackstring -- OTUS HW2 Unpack string.
 package hw02unpackstring
 
 import (
 	"errors"
+	"strings"
+	"unicode"
+	"unicode/utf8"
 )
 
+const (
+	escapeRune = rune(92)
+)
+
+type runeAdvanced struct {
+	isDigit bool
+	val     rune
+}
+
+type cacheRune struct {
+	isSet bool
+	val   rune
+}
+
+type (
+	stack struct {
+		top    *node
+		length int
+	}
+	node struct {
+		value runeAdvanced
+		prev  *node
+	}
+)
+
+// createStack -- создает стек.
+func createStack() *stack {
+	return &stack{nil, 0}
+}
+
+// lenStk -- возвращает размер.
+func (t *stack) lenStk() int {
+	return t.length
+}
+
+// pop -- снимает элемент с вершины.
+func (t *stack) pop() runeAdvanced {
+	if t.length == 0 {
+		return runeAdvanced{isDigit: true, val: rune(0)}
+	}
+
+	n := t.top
+	t.top = n.prev
+	t.length--
+	return n.value
+}
+
+// push -- добавляет элемент на вершину.
+func (t *stack) push(value runeAdvanced) {
+	n := &node{value, t.top}
+	t.top = n
+	t.length++
+}
+
+// buildStr -- создает строку из стека рун.
+func buildStr(st *stack) string {
+	var b strings.Builder
+	for st.lenStk() > 0 {
+		b.WriteString(string(st.pop().val))
+	}
+
+	res := b.String()
+	return res
+}
+
+// checkIsDigit -- проверяет является ли руна числом.
+func checkIsDigit(r rune) bool {
+	return unicode.IsDigit(r)
+}
+
+// rTI -- конвертирует rune в int.
+func rTI(r rune) int {
+	return int(r - '0')
+}
+
+// ErrInvalidString -- custom error.
 var ErrInvalidString = errors.New("invalid string")
 
-func Unpack(_ string) (string, error) {
-	// Place your code here.
-	return "", nil
+// Unpack -- input string.
+func Unpack(input string) (string, error) {
+	res := ""
+	runes := []rune(input)
+
+	if len(runes) == 0 {
+		return res, nil
+	}
+
+	firstRune, _ := utf8.DecodeRuneInString(input)
+	if unicode.IsDigit(firstRune) {
+		return "", ErrInvalidString
+	}
+
+	stack := createStack()
+
+	tmpEsc := cacheRune{isSet: false, val: rune(0)}
+
+	for _, val := range runes {
+		rA := runeAdvanced{val: val}
+		rA.isDigit = checkIsDigit(rA.val)
+
+		if rA.val == escapeRune {
+			if tmpEsc.isSet {
+				tmpEsc = cacheRune{isSet: false, val: rune(0)}
+			} else {
+				tmpEsc = cacheRune{isSet: true, val: rA.val}
+				continue
+			}
+		}
+
+		if tmpEsc.isSet {
+			tmpEsc = cacheRune{isSet: false, val: rune(0)}
+			rA.isDigit = false
+		}
+
+		stack.push(rA)
+	}
+
+	sLocal := createStack()
+	tmpDigit := cacheRune{isSet: false, val: rune(0)}
+
+	for stack.lenStk() > 0 {
+		rA := stack.pop()
+
+		isDigit := rA.isDigit
+		if isDigit && tmpDigit.isSet {
+			return "", ErrInvalidString
+		}
+
+		if isDigit {
+			tmpDigit = cacheRune{isSet: true, val: rA.val}
+			continue
+		}
+
+		if !isDigit {
+			if tmpDigit.isSet {
+				c := rTI(tmpDigit.val)
+
+				for c > 0 {
+					sLocal.push(rA)
+					c--
+				}
+
+				tmpDigit = cacheRune{isSet: false, val: rune(0)}
+			} else {
+				sLocal.push(rA)
+			}
+		}
+	}
+
+	res = buildStr(sLocal)
+	return res, nil
 }
