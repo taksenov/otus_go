@@ -69,7 +69,9 @@ func handleWarnCache(c *map[string]wordData, k string, v wordData) {
 		}
 		delete((*c), wordWithMinCount.word)
 
-		fmt.Println("2 handleWarnCache : len((*c)) = ", len((*c)))
+		fmt.Println("2 handleWarnCache : len((*c)) = ", len((*c)), "WORD =", wordWithMinCount.word)
+		value, ok := (*c)[wordWithMinCount.word]
+		fmt.Println("2 handleWarnCache : VALUE = ", value, "OK =", ok)
 	}
 }
 
