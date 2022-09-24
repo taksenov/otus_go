@@ -2,6 +2,7 @@
 package hw03frequencyanalysis
 
 import (
+	"fmt"
 	"math"
 	"sort"
 	"strings"
@@ -56,6 +57,8 @@ func get(c *map[string]wordData, k string) wordData {
 
 func handleWarnCache(c *map[string]wordData, k string, v wordData) {
 	add(c, k, v)
+
+	fmt.Println("handleWarnCache : len((*c)) = ", len((*c)))
 
 	if len((*c)) > maximumWords {
 		wordWithMinCount := wordData{count: int(math.Inf(1))}
