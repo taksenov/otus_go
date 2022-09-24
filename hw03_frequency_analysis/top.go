@@ -4,7 +4,6 @@ package hw03frequencyanalysis
 import (
 	"fmt"
 	"math"
-	"runtime"
 	"sort"
 	"strings"
 )
@@ -68,8 +67,7 @@ func handleWarnCache(c *map[string]wordData, k string, v wordData) {
 				wordWithMinCount = wordData{count: val.count, word: val.word}
 			}
 		}
-		delete((*c), wordWithMinCount.word)
-		runtime.GC()
+		delete(*c, wordWithMinCount.word)
 
 		fmt.Println("2 handleWarnCache : len((*c)) = ", len((*c)), "WORD =", wordWithMinCount.word)
 		value, ok := (*c)[wordWithMinCount.word]
