@@ -60,7 +60,7 @@ func handleWarnCache(c *map[string]wordData, k string, v wordData) {
 
 	fmt.Println("handleWarnCache : len((*c)) = ", len((*c)))
 
-	if len((*c)) > maximumWords {
+	if len(*c) > maximumWords {
 		wordWithMinCount := wordData{count: int(math.Inf(1))}
 		for _, val := range *c {
 			if val.count < wordWithMinCount.count {
