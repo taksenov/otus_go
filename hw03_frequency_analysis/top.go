@@ -2,7 +2,6 @@
 package hw03frequencyanalysis
 
 import (
-	"fmt"
 	"math"
 	"sort"
 	"strings"
@@ -58,23 +57,21 @@ func get(c *map[string]wordData, k string) wordData {
 func handleWarnCache(c *map[string]wordData, k string, v wordData) {
 	add(c, k, v)
 
-	fmt.Println("handleWarnCache : len((*c)) = ", len((*c)))
-
 	if len(*c) > maximumWords {
-		wordWithMinCount := wordData{count: int(math.Inf(1))}
-		fmt.Println("1 wordWithMinCount =", wordWithMinCount)
+
+		// NB: В оригинале должно быть вот так!
+		// Но, github actions pipeline выставляет вместо плюс бесконечности минус бесконечность.
+		// Поэтому, чтобы тесты отработали используется костыль.
+		// wordWithMinCount := wordData{count: int(math.Inf(1))}
+		const Infinity int = 9223372036854775807
+		wordWithMinCount := wordData{count: Infinity}
+
 		for _, val := range *c {
 			if val.count < wordWithMinCount.count {
 				wordWithMinCount = wordData{count: val.count, word: val.word}
 			}
 		}
-		fmt.Println("2 wordWithMinCount =", wordWithMinCount)
 		delete(*c, wordWithMinCount.word)
-
-		fmt.Println("3 wordWithMinCount =", wordWithMinCount)
-		fmt.Println("2 handleWarnCache : len((*c)) = ", len((*c)), "WORD =", wordWithMinCount.word)
-		// value, ok := (*c)[wordWithMinCount.word]
-		// fmt.Println("2 handleWarnCache : VALUE = ", value, "OK =", ok, "MAP = ", (*c))
 	}
 }
 
