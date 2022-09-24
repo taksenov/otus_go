@@ -58,7 +58,6 @@ func handleWarnCache(c *map[string]wordData, k string, v wordData) {
 	add(c, k, v)
 
 	if len(*c) > maximumWords {
-
 		// NB: В оригинале должно быть вот так!
 		// Но, github actions pipeline выставляет вместо плюс бесконечности минус бесконечность.
 		// Поэтому, чтобы тесты отработали используется костыль.
