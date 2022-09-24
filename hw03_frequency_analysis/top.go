@@ -26,7 +26,7 @@ func Top10(s string) []string {
 	for _, val := range words {
 		if checkExist(&cache, val) {
 			t := get(&cache, val)
-			t.count = t.count + 1
+			t.count++
 			add(&cache, val, t)
 			handleWarnCache(&warnCache, val, t)
 		} else {
