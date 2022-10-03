@@ -1,7 +1,10 @@
+// Package hw04lrucache -- Otus Go HW03.
 package hw04lrucache
 
+// Key -- ключ-строка.
 type Key string
 
+// Cache -- интерфейс.
 type Cache interface {
 	Set(key Key, value interface{}) bool
 	Get(key Key) (interface{}, bool)
@@ -21,6 +24,25 @@ type cacheItem struct {
 	value interface{}
 }
 
+// Get -- получает значение из кеша по ключу.
+func (t *lruCache) Get(k Key) (interface{}, bool) {
+	// @todo реализовать функциональность
+	return nil, false
+}
+
+// Set -- получает значение из кеша по ключу.
+func (t *lruCache) Set(k Key, v interface{}) bool {
+	// @todo реализовать функциональность
+	return false
+}
+
+// Clear -- очищает кеш.
+func (t *lruCache) Clear() {
+	// @todo реализовать функциональность
+	return
+}
+
+// NewCache -- конструктор.
 func NewCache(capacity int) Cache {
 	return &lruCache{
 		capacity: capacity,
