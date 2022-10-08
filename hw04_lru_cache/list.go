@@ -1,4 +1,4 @@
-// Package hw04lrucache -- Otus Go HW03.
+// Package hw04lrucache -- Otus Go HW04.
 package hw04lrucache
 
 // List -- интерфейс.
