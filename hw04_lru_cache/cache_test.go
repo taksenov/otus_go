@@ -60,7 +60,7 @@ func TestCache(t *testing.T) {
 		require.Equal(t, nil, val)
 	})
 
-	t.Run("pulling elements logic", func(t *testing.T) {
+	t.Run("pushing elements", func(t *testing.T) {
 		c := NewCache(3)
 
 		c.Set("a", "LOL")
@@ -84,7 +84,7 @@ func TestCache(t *testing.T) {
 		require.Equal(t, nil, v)
 	})
 
-	t.Run("pulling old elements logic", func(t *testing.T) {
+	t.Run("pushing old elements", func(t *testing.T) {
 		c := NewCache(3)
 
 		c.Set("a", "LOL")
