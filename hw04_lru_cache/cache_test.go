@@ -59,6 +59,52 @@ func TestCache(t *testing.T) {
 		require.False(t, ok)
 		require.Equal(t, nil, val)
 	})
+
+	t.Run("pulling elements logic", func(t *testing.T) {
+		c := NewCache(3)
+
+		c.Set("a", "LOL")
+		v, ok := c.Get("a")
+		require.True(t, ok)
+		require.Equal(t, "LOL", v)
+
+		c.Set("b", "KEK")
+		v, ok = c.Get("b")
+		require.True(t, ok)
+		require.Equal(t, "KEK", v)
+
+		c.Set("c", "AZAZA")
+		v, ok = c.Get("c")
+		require.True(t, ok)
+		require.Equal(t, "AZAZA", v)
+
+		c.Set("d", "is palindromes")
+		v, ok = c.Get("a")
+		require.False(t, ok)
+		require.Equal(t, nil, v)
+	})
+
+	t.Run("pulling old elements logic", func(t *testing.T) {
+		c := NewCache(3)
+
+		c.Set("a", "LOL")
+		c.Set("b", "KEK")
+		c.Set("old", "AZAZA")
+
+		c.Get("old")
+		c.Set("old", "OLOLO")
+		c.Get("b")
+		c.Set("b", "LOL")
+		c.Get("a")
+		c.Set("a", "KEK")
+		c.Get("b")
+		c.Get("a")
+		c.Set("d", "is palindromes")
+
+		v, ok := c.Get("old")
+		require.False(t, ok)
+		require.Equal(t, nil, v)
+	})
 }
 
 func TestCacheMultithreading(t *testing.T) {

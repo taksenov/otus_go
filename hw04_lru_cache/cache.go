@@ -51,9 +51,9 @@ func (t *lruCache) Set(k Key, v interface{}) bool {
 
 	if t.queue.Len() > t.capacity {
 		lastEl := t.queue.Back()
-		t.queue.Remove(lastEl)
 		lK := lastEl.Value.(*cacheItem)
 		delete(t.items, lK.key)
+		t.queue.Remove(lastEl)
 	}
 
 	return ok
