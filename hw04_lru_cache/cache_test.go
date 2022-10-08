@@ -105,6 +105,35 @@ func TestCache(t *testing.T) {
 		require.False(t, ok)
 		require.Equal(t, nil, v)
 	})
+
+	t.Run("multiple gets", func(t *testing.T) {
+		c := NewCache(3)
+
+		c.Set("a", "LOL")
+		c.Set("b", "KEK")
+		c.Set("old", "AZAZA")
+
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+
+		v, ok := c.Get("old")
+		require.True(t, ok)
+		require.Equal(t, "AZAZA", v)
+	})
 }
 
 func TestCacheMultithreading(t *testing.T) {

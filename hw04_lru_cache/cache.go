@@ -27,6 +27,10 @@ func (t *lruCache) Get(k Key) (interface{}, bool) {
 	elem, ok := t.items[k]
 	if ok {
 		v, _ := elem.Value.(*cacheItem)
+
+		delete(t.items, v.key)
+		cItem := &cacheItem{key: k, value: v.value}
+		t.items[k] = &ListItem{Value: cItem}
 		t.queue.MoveToFront(elem)
 
 		return v.value, ok
