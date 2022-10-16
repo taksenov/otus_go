@@ -1,5 +1,5 @@
 // Package hw05parallelexecution -- HW05 Otus Go.
-package hw05parallelexecution //nolint:golint,stylecheck
+package hw05parallelexecution
 
 import (
 	"errors"
@@ -13,13 +13,13 @@ var ErrErrorsLimitExceeded = errors.New("errors limit exceeded")
 // Task -- simple task type.
 type Task func() error
 
-// Run starts tasks in N goroutines and stops its work when receiving M errors from tasks
+// Run starts tasks in N goroutines and stops its work when receiving M errors from tasks.
 func Run(tasks []Task, n int, m int) error {
 	if m <= 0 {
 		return ErrErrorsLimitExceeded
 	}
 
-	errAcc := int32(1)
+	errAcc := int32(1) //nolint:ifshort
 	errMax := int32(m)
 	ch := make(chan Task, len(tasks))
 	wg := &sync.WaitGroup{}
