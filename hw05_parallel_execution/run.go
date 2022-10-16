@@ -20,7 +20,7 @@ func Run(tasks []Task, n int, m int) error {
 	}
 
 	errAcc := int32(1) //nolint:ifshort
-	errMax := int32(m)
+	errMax := int32(m) //nolint:ifshort
 	ch := make(chan Task, len(tasks))
 	wg := &sync.WaitGroup{}
 
