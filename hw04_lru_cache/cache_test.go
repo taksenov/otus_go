@@ -50,7 +50,89 @@ func TestCache(t *testing.T) {
 	})
 
 	t.Run("purge logic", func(t *testing.T) {
-		// Write me
+		c := NewCache(1)
+
+		c.Set("aaa", "bbb")
+		c.Clear()
+		val, ok := c.Get("aaa")
+
+		require.False(t, ok)
+		require.Equal(t, nil, val)
+	})
+
+	t.Run("pushing elements", func(t *testing.T) {
+		c := NewCache(3)
+
+		c.Set("a", "LOL")
+		v, ok := c.Get("a")
+		require.True(t, ok)
+		require.Equal(t, "LOL", v)
+
+		c.Set("b", "KEK")
+		v, ok = c.Get("b")
+		require.True(t, ok)
+		require.Equal(t, "KEK", v)
+
+		c.Set("c", "AZAZA")
+		v, ok = c.Get("c")
+		require.True(t, ok)
+		require.Equal(t, "AZAZA", v)
+
+		c.Set("d", "is palindromes")
+		v, ok = c.Get("a")
+		require.False(t, ok)
+		require.Equal(t, nil, v)
+	})
+
+	t.Run("pushing old elements", func(t *testing.T) {
+		c := NewCache(3)
+
+		c.Set("a", "LOL")
+		c.Set("b", "KEK")
+		c.Set("old", "AZAZA")
+
+		c.Get("old")
+		c.Set("old", "OLOLO")
+		c.Get("b")
+		c.Set("b", "LOL")
+		c.Get("a")
+		c.Set("a", "KEK")
+		c.Get("b")
+		c.Get("a")
+		c.Set("d", "is palindromes")
+
+		v, ok := c.Get("old")
+		require.False(t, ok)
+		require.Equal(t, nil, v)
+	})
+
+	t.Run("multiple gets", func(t *testing.T) {
+		c := NewCache(3)
+
+		c.Set("a", "LOL")
+		c.Set("b", "KEK")
+		c.Set("old", "AZAZA")
+
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+		c.Get("a")
+
+		v, ok := c.Get("old")
+		require.True(t, ok)
+		require.Equal(t, "AZAZA", v)
 	})
 }
 
