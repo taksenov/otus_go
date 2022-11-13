@@ -6,13 +6,11 @@ Copyright © 2022 taksenov@gmail.com
 package cmd
 
 import (
+	goflag "flag"
 	"log"
 
-	goflag "flag"
-
-	flag "github.com/spf13/pflag"
-
 	"github.com/spf13/cobra"
+	flag "github.com/spf13/pflag"
 )
 
 // Root -- rootCmd pseudo constructor.
