@@ -7,7 +7,6 @@ package cmd
 
 import (
 	"errors"
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -25,11 +24,6 @@ var (
 
 // Copy function for copy files.
 func Copy(fromPath, toPath string, offset, limit int64) error {
-	fmt.Println("fromPath =", fromPath)
-	fmt.Println("toPath =", toPath)
-	fmt.Println("offset =", offset)
-	fmt.Println("limit =", limit)
-
 	// Src
 	file, err := os.OpenFile(fromPath, os.O_RDONLY, 0o644)
 	if err != nil {
@@ -46,6 +40,11 @@ func Copy(fromPath, toPath string, offset, limit int64) error {
 	}
 	if limit == 0 {
 		limit = st.Size()
+	}
+	if offset > 0 {
+		if _, err := file.Seek(offset, io.SeekStart); err != nil {
+			return err
+		}
 	}
 
 	// Dst
