@@ -124,6 +124,10 @@ func masterOfChunks(somethingWhole int64) chunks {
 		tail:  0,
 	}
 
+	if somethingWhole <= 0 {
+		return res
+	}
+
 	if somethingWhole < measure {
 		res.count = 1
 		res.size = somethingWhole
