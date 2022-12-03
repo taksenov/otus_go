@@ -8,13 +8,13 @@ import (
 
 func TestReadDir(t *testing.T) {
 	t.Run("check equal", func(t *testing.T) {
-	e := Environment{
-		"BAR": {Value:"bar", NeedRemove:false},
-		"EMPTY": {Value:"", NeedRemove:false},
-		"FOO": {Value:"   foo\nwith new line", NeedRemove:false},
-		"HELLO": {Value:"\"hello\"", NeedRemove:false},
-		"UNSET": {Value:"", NeedRemove:true},
-	}
+		e := Environment{
+			"BAR":   {Value: "bar", NeedRemove: false},
+			"EMPTY": {Value: "", NeedRemove: false},
+			"FOO":   {Value: "   foo\nwith new line", NeedRemove: false},
+			"HELLO": {Value: "\"hello\"", NeedRemove: false},
+			"UNSET": {Value: "", NeedRemove: true},
+		}
 
 		result, _ := ReadDir("./testdata/env")
 
