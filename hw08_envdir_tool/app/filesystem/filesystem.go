@@ -13,7 +13,7 @@ import (
 
 // ReadFileFirstLine -- reading first line of file.
 func ReadFileFirstLine(file string) (string, error) {
-	res := ""
+	var res string
 
 	var err error
 	f, err := os.Open(file)
