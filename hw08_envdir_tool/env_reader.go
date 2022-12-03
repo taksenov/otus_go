@@ -1,7 +1,9 @@
 // Package main -- HW08 otus: envdir tool.
 package main
 
+//nolint:gofumpt
 import (
+	"errors"
 	"io"
 	"os"
 
@@ -31,7 +33,7 @@ func ReadDir(dir string) (Environment, error) {
 		needRemove := false
 
 		val, err := filesystem.ReadFileFirstLine(dir + "/" + file.Name())
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			needRemove = true
 		} else if err != nil {
 			continue
