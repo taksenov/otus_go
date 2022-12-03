@@ -4,6 +4,7 @@ package filesystem
 import (
 	"bufio"
 	"bytes"
+	"errors"
 	"io"
 	"os"
 	"strings"
@@ -25,7 +26,7 @@ func ReadFileFirstLine(file string) (string, error) {
 	r := bufio.NewReader(f)
 
 	lB, _, err := r.ReadLine()
-	if err == io.EOF {
+	if errors.Is(err, io.EOF) {
 		lB = handleNullish(lB)
 		res = handleTailSpaces(bytes.NewBuffer(lB).String())
 		return res, err
@@ -54,9 +55,8 @@ func handleNullish(b []byte) []byte {
 }
 
 func handleTailSpaces(s string) string {
-	res := ""
-
-	res = strings.TrimRightFunc(s, func(r rune) bool {
+	//nolint
+	res := strings.TrimRightFunc(s, func(r rune) bool {
 		return unicode.IsSpace(r)
 	})
 
