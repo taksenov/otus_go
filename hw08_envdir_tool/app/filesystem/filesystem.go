@@ -32,7 +32,7 @@ func ReadFileFirstLine(file string) (string, error) {
 	} else if err != nil {
 		return "", err
 	}
-	
+
 	lB = handleNullish(lB)
 	res = handleTailSpaces(bytes.NewBuffer(lB).String())
 
@@ -42,7 +42,7 @@ func ReadFileFirstLine(file string) (string, error) {
 func handleNullish(b []byte) []byte {
 	var res []byte
 
-	for _,v := range(b) {
+	for _, v := range b {
 		if v != 0x00 {
 			res = append(res, v)
 		} else {

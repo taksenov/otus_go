@@ -19,7 +19,7 @@ func main() {
 	if err != nil {
 		cerr.HandleErr(err, "ReadDir")
 	}
-	
+
 	returnCode := RunCmd(os.Args[2:], env)
 
 	os.Exit(returnCode)

@@ -29,7 +29,7 @@ func ReadDir(dir string) (Environment, error) {
 
 	for _, file := range files {
 		needRemove := false
-		
+
 		val, err := filesystem.ReadFileFirstLine(dir + "/" + file.Name())
 		if err == io.EOF {
 			needRemove = true
