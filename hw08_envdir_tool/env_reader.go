@@ -27,7 +27,7 @@ func ReadDir(dir string) (Environment, error) {
 		return nil, err
 	}
 
-	res := make(Environment, 0)
+	res := make(Environment)
 
 	for _, file := range files {
 		needRemove := false
