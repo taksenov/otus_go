@@ -69,6 +69,7 @@ func Validate(v interface{}) error {
 }
 
 func validateValue(tag, field string, v reflect.Value) ValidationErrors {
+	//nolint:exhaustive
 	switch v.Kind() {
 	case reflect.String:
 		var errs ValidationErrors
