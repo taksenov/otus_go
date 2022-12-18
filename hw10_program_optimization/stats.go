@@ -27,7 +27,7 @@ func getUsers(r io.Reader) (result users, err error) {
 	for scanner.Scan() {
 		err := u.UnmarshalJSON(scanner.Bytes())
 		if err != nil {
-			panic(err)
+			return result, err
 		}
 
 		result[i] = (*u)
@@ -35,7 +35,7 @@ func getUsers(r io.Reader) (result users, err error) {
 	}
 
 	if err := scanner.Err(); err != nil {
-		panic(err)
+		return result, err
 	}
 
 	return
