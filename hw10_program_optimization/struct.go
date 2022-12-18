@@ -2,6 +2,7 @@ package hw10programoptimization
 
 //easyjson:json
 type User struct {
+	//nolint
 	ID       int    `json:"Id"`
 	Name     string `json:"Name"`
 	Username string `json:"Username"`
