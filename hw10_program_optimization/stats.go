@@ -23,7 +23,6 @@ func getSomethingGrandlyOptimized(r io.Reader, domain string) (DomainStat, error
 	u := &User{}
 	result := make(DomainStat)
 
-
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
 		err := u.UnmarshalJSON(scanner.Bytes())

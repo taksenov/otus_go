@@ -62,12 +62,12 @@ func BenchmarkFastFuncs(b *testing.B) {
 		return
 	}
 	defer r.Close()
-	
+
 	data, err := r.File[0].Open()
 	if err != nil {
 		return
 	}
-	
+
 	for i := 0; i < b.N; i++ {
 		GetDomainStat(data, "biz")
 	}
