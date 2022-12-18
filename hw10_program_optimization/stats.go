@@ -12,12 +12,12 @@ type DomainStat map[string]int
 func GetDomainStat(r io.Reader, domain string) (DomainStat, error) {
 	res, err := getSomethingGrandlyOptimized(r, domain)
 	if err != nil {
-		return nil, fmt.Errorf("get users error: %w", err)
+		// NB: `get users error` -- вывод ошибки становится бессмысленным.
+		// Оставлено, чтобы не нарушать сигнатуру функции. 
+		return nil, fmt.Errorf("get users error: %w", err) 
 	}
 	return res, nil
 }
-
-type users [100_000]User
 
 func getSomethingGrandlyOptimized(r io.Reader, domain string) (DomainStat, error) {
 	u := &User{}
@@ -31,11 +31,9 @@ func getSomethingGrandlyOptimized(r io.Reader, domain string) (DomainStat, error
 		}
 
 		if ok := strings.Contains(u.Email, domain); ok {
-			num := result[strings.ToLower(strings.SplitN(u.Email, "@", 2)[1])]
-			num++
-			result[strings.ToLower(strings.SplitN(u.Email, "@", 2)[1])] = num
+			d := strings.ToLower(strings.SplitN(u.Email, "@", 2)[1])
+			result[d] = result[d] + 1
 		}
-
 	}
 
 	if err := scanner.Err(); err != nil {
