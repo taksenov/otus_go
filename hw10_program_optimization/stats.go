@@ -13,8 +13,8 @@ func GetDomainStat(r io.Reader, domain string) (DomainStat, error) {
 	res, err := getSomethingGrandlyOptimized(r, domain)
 	if err != nil {
 		// NB: `get users error` -- вывод ошибки становится бессмысленным.
-		// Оставлено, чтобы не нарушать сигнатуру функции. 
-		return nil, fmt.Errorf("get users error: %w", err) 
+		// Оставлено, чтобы не нарушать сигнатуру функции.
+		return nil, fmt.Errorf("get users error: %w", err)
 	}
 	return res, nil
 }
