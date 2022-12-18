@@ -10,19 +10,20 @@ import (
 type DomainStat map[string]int
 
 func GetDomainStat(r io.Reader, domain string) (DomainStat, error) {
-	u, err := getUsers(r)
+	res, err := getSomethingGrandlyOptimized(r, domain)
 	if err != nil {
 		return nil, fmt.Errorf("get users error: %w", err)
 	}
-	return countDomains(u, domain)
+	return res, nil
 }
 
 type users [100_000]User
 
-func getUsers(r io.Reader) (result users, err error) {
+func getSomethingGrandlyOptimized(r io.Reader, domain string) (DomainStat, error) {
 	u := &User{}
+	result := make(DomainStat)
 
-	i := 0
+
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
 		err := u.UnmarshalJSON(scanner.Bytes())
@@ -30,26 +31,16 @@ func getUsers(r io.Reader) (result users, err error) {
 			return result, err
 		}
 
-		result[i] = (*u)
-		i++
+		if ok := strings.Contains(u.Email, domain); ok {
+			num := result[strings.ToLower(strings.SplitN(u.Email, "@", 2)[1])]
+			num++
+			result[strings.ToLower(strings.SplitN(u.Email, "@", 2)[1])] = num
+		}
+
 	}
 
 	if err := scanner.Err(); err != nil {
 		return result, err
-	}
-
-	return
-}
-
-func countDomains(u users, domain string) (DomainStat, error) {
-	result := make(DomainStat)
-
-	for _, user := range u {
-		if ok := strings.Contains(user.Email, domain); ok {
-			num := result[strings.ToLower(strings.SplitN(user.Email, "@", 2)[1])]
-			num++
-			result[strings.ToLower(strings.SplitN(user.Email, "@", 2)[1])] = num
-		}
 	}
 
 	return result, nil
