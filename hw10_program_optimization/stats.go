@@ -32,7 +32,7 @@ func getSomethingGrandlyOptimized(r io.Reader, domain string) (DomainStat, error
 
 		if ok := strings.Contains(u.Email, domain); ok {
 			d := strings.ToLower(strings.SplitN(u.Email, "@", 2)[1])
-			result[d] = result[d] + 1
+			result[d]++
 		}
 	}
 
