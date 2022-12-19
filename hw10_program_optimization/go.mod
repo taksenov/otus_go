@@ -1,4 +1,4 @@
-module github.com/taksenov/hw10programoptimization
+module github.com/taksenov/otus_go/hw10_program_optimization
 
 go 1.19
 

@@ -2,7 +2,6 @@ package hw10programoptimization
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"strings"
 )
@@ -10,16 +9,7 @@ import (
 type DomainStat map[string]int
 
 func GetDomainStat(r io.Reader, domain string) (DomainStat, error) {
-	res, err := getSomethingGrandlyOptimized(r, domain)
-	if err != nil {
-		// NB: `get users error` -- вывод ошибки становится бессмысленным.
-		// Оставлено, чтобы не нарушать сигнатуру функции.
-		return nil, fmt.Errorf("get users error: %w", err)
-	}
-	return res, nil
-}
-
-func getSomethingGrandlyOptimized(r io.Reader, domain string) (DomainStat, error) {
+	dmn := strings.ToLower(domain)
 	u := &User{}
 	result := make(DomainStat)
 
@@ -30,7 +20,8 @@ func getSomethingGrandlyOptimized(r io.Reader, domain string) (DomainStat, error
 			return result, err
 		}
 
-		if ok := strings.Contains(u.Email, domain); ok {
+		uE := strings.ToLower(u.Email)
+		if ok := strings.HasSuffix(uE, dmn); ok {
 			d := strings.ToLower(strings.SplitN(u.Email, "@", 2)[1])
 			result[d]++
 		}
