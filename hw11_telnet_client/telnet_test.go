@@ -109,7 +109,7 @@ func testCheckConnect(t *testing.T, wg *sync.WaitGroup, l net.Listener) {
 	require.NotEqual(t, 0, n)
 }
 
-func testCloseServer(t *testing.T, wg *sync.WaitGroup, clientWg *sync.WaitGroup, l net.Listener) {
+func testIsCloseServer(t *testing.T, wg *sync.WaitGroup, clientWg *sync.WaitGroup, l net.Listener) {
 	t.Helper()
 	defer func() {
 		wg.Done()
@@ -122,7 +122,7 @@ func testCloseServer(t *testing.T, wg *sync.WaitGroup, clientWg *sync.WaitGroup,
 	defer func() { require.NoError(t, conn.Close()) }()
 }
 
-func testCloseClient(t *testing.T, wg *sync.WaitGroup, clientWg *sync.WaitGroup, l net.Listener) {
+func testIsCloseClient(t *testing.T, wg *sync.WaitGroup, clientWg *sync.WaitGroup, l net.Listener) {
 	t.Helper()
 	defer func() {
 		wg.Done()
