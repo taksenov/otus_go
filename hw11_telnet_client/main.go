@@ -42,7 +42,7 @@ func main() {
 	defer cancel()
 
 	gracefulShutdown := make(chan os.Signal, 1)
-	defer close(gracefulShutdown) 
+	defer close(gracefulShutdown)
 
 	signal.Notify(gracefulShutdown, syscall.SIGINT, syscall.SIGTERM)
 
