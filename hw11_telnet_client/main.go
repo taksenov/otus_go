@@ -39,6 +39,7 @@ func main() {
 	wg.Add(2)
 
 	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	gracefulShutdown := make(chan os.Signal, 1)
 	signal.Notify(gracefulShutdown, syscall.SIGINT, syscall.SIGTERM)
 
