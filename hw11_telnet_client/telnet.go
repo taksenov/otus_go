@@ -49,7 +49,11 @@ func (t *clientAbstraction) Connect() (err error) {
 	return
 }
 
-func (t *clientAbstraction) Close() error {
+func (t *clientAbstraction) Close() (err error) {
+	if t.conn == nil {
+		return
+	}
+
 	return t.conn.Close()
 }
 
