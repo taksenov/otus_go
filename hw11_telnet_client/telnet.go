@@ -39,9 +39,14 @@ type clientAbstraction struct {
 
 func (t *clientAbstraction) Connect() (err error) {
 	t.conn, err = net.DialTimeout("tcp", t.address, t.timeout)
+	if err != nil {
+		return err
+	}
+
 	t.connScan = bufio.NewScanner(t.conn)
 	t.inScan = bufio.NewScanner(t.in)
-	return err
+
+	return
 }
 
 func (t *clientAbstraction) Close() error {
