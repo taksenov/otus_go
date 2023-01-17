@@ -58,7 +58,7 @@ func main() {
 			default:
 				if err := c.Send(); err != nil {
 					c.Close()
-					log.Fatal(err)
+					log.Println(err)
 					cancel()
 
 					return
@@ -77,7 +77,7 @@ func main() {
 			default:
 				if err := c.Receive(); err != nil {
 					c.Close()
-					log.Fatal(err)
+					log.Println(err)
 					cancel()
 
 					return
