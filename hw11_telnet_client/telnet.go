@@ -46,7 +46,7 @@ func (t *clientAbstraction) Connect() (err error) {
 	t.connScan = bufio.NewScanner(t.conn)
 	t.inScan = bufio.NewScanner(t.in)
 
-	return
+	return nil
 }
 
 func (t *clientAbstraction) Close() (err error) {
@@ -65,7 +65,10 @@ func (t *clientAbstraction) Send() (err error) {
 		return io.EOF
 	}
 	_, err = t.conn.Write(append(t.inScan.Bytes(), '\n'))
-	return
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (t *clientAbstraction) Receive() (err error) {
@@ -75,6 +78,10 @@ func (t *clientAbstraction) Receive() (err error) {
 	if !t.connScan.Scan() {
 		return errors.New("connection closed")
 	}
+
 	_, err = t.out.Write(append(t.connScan.Bytes(), '\n'))
-	return
+	if err != nil {
+		return err
+	}
+	return nil
 }
