@@ -45,7 +45,7 @@ func main() {
 	// Graceful Shutdown
 	go func() {
 		<-gracefulShutdown
-		os.Exit(1)
+		cancel()
 	}()
 
 	// Send
