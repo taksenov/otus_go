@@ -101,7 +101,7 @@ func testIsCloseClientRunner(t *testing.T, wg *sync.WaitGroup, clientWg *sync.Wa
 
 	err = client.Send()
 	require.Error(t, err)
-	require.Equal(t, errors.New("end"), err)
+	require.Equal(t, io.EOF, err)
 
 	err = client.Receive()
 	require.Error(t, err)

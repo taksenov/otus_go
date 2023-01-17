@@ -62,7 +62,7 @@ func (t *clientAbstraction) Send() (err error) {
 		return errors.New("connection is not established")
 	}
 	if !t.inScan.Scan() {
-		return errors.New("end")
+		return io.EOF
 	}
 	_, err = t.conn.Write(append(t.inScan.Bytes(), '\n'))
 	return
