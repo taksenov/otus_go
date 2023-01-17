@@ -64,10 +64,12 @@ func (t *clientAbstraction) Send() (err error) {
 	if !t.inScan.Scan() {
 		return io.EOF
 	}
+
 	_, err = t.conn.Write(append(t.inScan.Bytes(), '\n'))
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
 
@@ -83,5 +85,6 @@ func (t *clientAbstraction) Receive() (err error) {
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
