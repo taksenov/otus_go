@@ -51,7 +51,7 @@ func (t *clientAbstraction) Connect() (err error) {
 
 func (t *clientAbstraction) Close() (err error) {
 	if t.conn == nil {
-		return
+		return errors.New("connection is not established")
 	}
 
 	return t.conn.Close()
@@ -59,7 +59,7 @@ func (t *clientAbstraction) Close() (err error) {
 
 func (t *clientAbstraction) Send() (err error) {
 	if t.conn == nil {
-		return
+		return errors.New("connection is not established")
 	}
 	if !t.inScan.Scan() {
 		return errors.New("end")
@@ -70,7 +70,7 @@ func (t *clientAbstraction) Send() (err error) {
 
 func (t *clientAbstraction) Receive() (err error) {
 	if t.conn == nil {
-		return
+		return errors.New("connection is not established")
 	}
 	if !t.connScan.Scan() {
 		return errors.New("connection closed")
