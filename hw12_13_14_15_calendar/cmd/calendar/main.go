@@ -8,10 +8,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/fixme_my_friend/hw12_13_14_15_calendar/internal/app"
-	"github.com/fixme_my_friend/hw12_13_14_15_calendar/internal/logger"
-	internalhttp "github.com/fixme_my_friend/hw12_13_14_15_calendar/internal/server/http"
-	memorystorage "github.com/fixme_my_friend/hw12_13_14_15_calendar/internal/storage/memory"
+	"github.com/taksenov/otus_go/hw12_13_14_15_calendar/internal/app"
+	"github.com/taksenov/otus_go/hw12_13_14_15_calendar/internal/logger"
+	internalhttp "github.com/taksenov/otus_go/hw12_13_14_15_calendar/internal/server/http"
+	memorystorage "github.com/taksenov/otus_go/hw12_13_14_15_calendar/internal/storage/memory"
 )
 
 var configFile string
